@@ -29,3 +29,7 @@ spec:
                 name: qdrant
                 port:
                   name: http
+status:
+  loadBalancer:
+    ingress:
+      - ip: 135.237.59.216
