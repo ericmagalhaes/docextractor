@@ -1,0 +1,31 @@
+kind: Ingress
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: qdrant
+  namespace: default
+  labels:
+    app.kubernetes.io/instance: qdrant
+    app.kubernetes.io/name: qdrant
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-net
+    kubernetes.io/tls-acme: 'true'
+    nginx.ingress.kubernetes.io/enable-cors: 'false'
+    nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
+    nginx.ingress.kubernetes.io/preserve-trailing-slash: 'true'
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - qdrant.ryze.globalindustries.com
+      secretName: tls-wld-ad
+  rules:
+    - host: qdrant.ryze.globalindustries.com
+      http:
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: qdrant
+                port:
+                  name: http
